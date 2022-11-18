@@ -16,20 +16,21 @@ namespace Alchentimist
 
         protected override void Awake()
         {
+            base.Awake();
             m_ingredients = new Dictionary<int, IngredientData>();
             m_potionTypes = new Dictionary<int, PotionType>();
             m_potions = new Dictionary<int, Potion>();
             m_recipes = new Dictionary<int, Recipe>();
 
-            m_DBManager = GetComponent<DBManager>();
+            m_DBManager = FindObjectOfType<DBManager>();
         }
         private void Start()
         {
             LoadDataFromDB();
             LoadResources();
+            FindObjectOfType<RecipeInventory>().InitializeRecipes();
 
             UIHandler.Instance.InstanceIngredientsToInventory(m_ingredients.Values.ToArray());
-            UIHandler.Instance.InstanceRecipes(m_recipes.Values.ToArray());
         }
 
         private void LoadIngredientsResources()
@@ -137,6 +138,8 @@ namespace Alchentimist
                 m_recipes.Add(rawData.potion.id, recipe);
             }
         }
+
+        public Recipe[] GetRecipes() { return m_recipes.Values.ToArray(); }
 
     }
 }

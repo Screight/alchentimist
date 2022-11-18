@@ -5,19 +5,13 @@ using UnityEngine.EventSystems;
 
 namespace Alchentimist
 {
-    public abstract class DragDropableArea : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IDropHandler
+    public interface DragDropableArea : IPointerEnterHandler, IPointerExitHandler, IDropHandler
     {
-        public void OnPointerEnter(PointerEventData eventData)
-        {
-            DragHandler.Instance.FocusedArea = this;
-        }
+        public void OnPointerEnter(PointerEventData eventData);
 
-        public void OnPointerExit(PointerEventData eventData)
-        {
-            DragHandler.Instance.FocusedArea = null;
-        }
+        public void OnPointerExit(PointerEventData eventData);
 
-        public abstract void OnDrop(PointerEventData eventData);
+        public void OnDrop(PointerEventData eventData);
 
     }
 }

@@ -7,7 +7,7 @@ namespace Alchentimist {
     public class UIHandler : Singleton<UIHandler>
     {
         [Header("Ingredients")]
-        [SerializeField] Transform m_ingredientsPanelTr;
+        [SerializeField] IngredientsInventory m_inventory;
         [SerializeField] GameObject m_ingredientPrefab;
 
         [Header("Recipes")]
@@ -18,12 +18,19 @@ namespace Alchentimist {
         {
             GameObject newIngredient;
             IngredientModel ingredientModel;
+            Ingredient ingredient;
+
+            List<Draggable> m_ingredientList = new List<Draggable>();
+
             foreach(IngredientData ingredientData in p_ingredients)
             {
-                newIngredient = Instantiate(m_ingredientPrefab, m_ingredientsPanelTr);
+                newIngredient = Instantiate(m_ingredientPrefab);
                 ingredientModel = new IngredientModel(newIngredient, ingredientData);
-                newIngredient.GetComponent<Ingredient>().Data = ingredientData;
+                ingredient = newIngredient.GetComponent<Ingredient>();
+                ingredient.Data = ingredientData;
+                m_ingredientList.Add(ingredient);
             }
+            m_inventory.InitializeSpacesFromList(m_ingredientList);
         }
 
         public void InstanceRecipes(Recipe[] p_recipes)
@@ -36,5 +43,21 @@ namespace Alchentimist {
                 recipeModel = new RecipeModel(newRecipe, recipeData);
             }
         }
+
+        public void OpenRecipesUI()
+        {
+            m_recipePopUpGO.SetActive(true);
+            m_mainScreenGO.SetActive(false);
+        }
+
+        [SerializeField] GameObject m_mainScreenGO;
+        [SerializeField] GameObject m_recipePopUpGO;
+
+        public void CloseRecipesUI()
+        {
+            m_recipePopUpGO.SetActive(false);
+            m_mainScreenGO.SetActive(true);
+        }
+
     }
 }

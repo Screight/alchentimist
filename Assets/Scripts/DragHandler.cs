@@ -9,9 +9,21 @@ namespace Alchentimist
         Draggable m_objectBeingDragged;
         DragDropableArea m_focusedArea;
 
+        public void UpdateObjectPosition() { m_objectBeingDragged.transform.position = Input.mousePosition; }
+
         public Draggable ObjectBeingDragged {
-            get { return m_objectBeingDragged; }
-            set { m_objectBeingDragged = value;}
+            get {return m_objectBeingDragged; }
+            set {
+                if(value != null) {
+                    value.transform.SetParent(transform);
+                    value.transform.localScale = new Vector3(1, 1, 1);
+                    value.GetComponent<CanvasGroup>().blocksRaycasts = false;
+                }
+                else{
+                    m_objectBeingDragged.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                }
+                m_objectBeingDragged = value;
+            }
         }
 
         public DragDropableArea FocusedArea

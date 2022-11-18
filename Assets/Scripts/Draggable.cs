@@ -3,18 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class Draggable : MonoBehaviour,IDragHandler, IEndDragHandler, IBeginDragHandler
+namespace Alchentimist
 {
-    protected bool m_isBeingDragged;
-
-    public void OnDrag(PointerEventData eventData)
+    public abstract class Draggable : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
     {
-        transform.position = Input.mousePosition;
+        protected bool m_isBeingDragged;
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            DragHandler.Instance.UpdateObjectPosition();
+        }
+
+        public abstract void OnEndDrag(PointerEventData eventData);
+
+        public abstract void OnBeginDrag(PointerEventData eventData);
+
     }
-
-    public abstract void OnEndDrag(PointerEventData eventData);
-
-    public abstract void OnBeginDrag(PointerEventData eventData);
-
-    
 }

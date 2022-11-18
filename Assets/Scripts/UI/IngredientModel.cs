@@ -19,5 +19,11 @@ namespace Alchentimist
             m_icon = p_model.transform.GetChild(0).GetComponent<Image>();
             m_icon.sprite = ResourcesManager.Instance.GetResourcesByID(p_data.iconPath.id, typeof(Sprite));
         }
+
+        public void InitializeData(IngredientData p_data)
+        {
+            m_icon.sprite = ResourcesManager.Instance.GetResourcesByID(p_data.iconPath.id, typeof(Sprite));
+        }
+
     }
 }

@@ -8,39 +8,29 @@ namespace Alchentimist
     public class Ingredient : Draggable
     {
         IngredientData m_data;
-        CanvasGroup m_canvasGroup;
+        IngredientModel m_model;
 
         private void Awake()
         {
-            m_canvasGroup = GetComponent<CanvasGroup>();
+            m_model = new IngredientModel(this.gameObject);
         }
 
         public override void OnEndDrag(PointerEventData eventData)
         {
-            m_canvasGroup.blocksRaycasts = true;
-            return;
-            DragHandler.Instance.ObjectBeingDragged = null;
-            m_isBeingDragged = false;
-
-            CraftingTable craftingTable = DragHandler.Instance.FocusedArea as CraftingTable;
-
-            if(craftingTable != null)
-            {
-                craftingTable.AddIngredient(m_data);
-            }
         }
 
         public override void OnBeginDrag(PointerEventData eventData)
         {
-            DragHandler.Instance.ObjectBeingDragged = this;
-            m_canvasGroup.blocksRaycasts = false;
-            m_isBeingDragged = true;
+            Draggable draggable = Instantiate(gameObject).GetComponent<Draggable>();
+            DragHandler.Instance.ObjectBeingDragged = draggable;
         }
 
         public IngredientData Data {
             get { return m_data; }
             set { m_data = value; }
         }
+
+        public IngredientModel Model { get { return m_model; } }
 
     }
 }
